@@ -1,0 +1,147 @@
+
+                 SOC Types and Roles
+                       |
+            ----------------------
+           |           |          |
+         SOC         People     Processes and Technology
+       Models                  /               \
+     /      |        \       People            Technology
+In-house  Virtual Co-Managed                  /           \
+                                       Security       SOC Roles
+                                       Products     (Analyst, Responder,
+                                                    Threat Hunter, Engineer,
+                                                    Manager)
+
+A Security Operations Center (SOC) is pivotal in continuously monitoring and analyzing an organization's security. 
+Different SOC models cater to diverse needs and budgets, ranging from in-house teams to virtual and co-managed setups.
+
+Key Elements:
+
+1. People:
+   - Personnel must undergo rigorous training to adapt to evolving threats.
+   - Adaptability and research skills are crucial for staying ahead in the cybersecurity landscape.
+
+2. Processes:
+   - Alignment with industry standards such as NIST, PCI, and HIPAA is essential.
+      (NIST: National Institute of Standards and Technology
+      PCI: Payment Card Industry
+      HIPAA: Health Insurance Portability and Accountability Act)
+   - Standardization of actions ensures comprehensive security coverage.
+
+3. Technology:
+   - Careful selection of tools is necessary for penetration testing, detection, prevention, and analysis.
+   - Consideration of factors beyond market popularity, such as budget and organizational fit, is crucial.
+
+SOC Roles:
+
+1. SOC Analyst:
+   - Classifies alerts, identifies causes, and advises on remediation.
+
+2. Incident Responder:
+   - Conducts initial assessment of security breaches.
+
+3. Threat Hunter:
+   - Proactively seeks out and investigates potential threats and vulnerabilities.
+
+4. Security Engineer:
+   - Maintains security infrastructure, including SIEM and SOC products.
+
+5. SOC Manager:
+   - Handles management responsibilities such as budgeting, staff management, and operational coordination.
+
+In conclusion, the effectiveness of a SOC relies on the synergy between people, processes, and technology,
+with each SOC role playing a vital part in enhancing an organization's security posture.
+
+More on SOC products:
+Security Orchestration, Automation, and Response (SOAR) product helps security teams manage and respond to cybersecurity incidents more efficiently.
+It does this by automating repetitive tasks, organizing incident response workflows, and integrating with various security tools to gather and analyze information. 
+Basically, it's like having a smart assistant that helps security analysts handle security alerts and incidents faster and more effectively.
+Moreover, SOAR platforms are not a single piece of software,
+but rather a comprehensive solution that combines multiple tools and technologies.
+It typically includes capabilities for orchestrating and automating security processes, managing incident response workflows,
+integrating with various security tools and systems, and providing analytics and reporting functionalities.
+These capabilities are often delivered through a combination of software modules, integrations,
+and customizable workflows tailored to the specific needs of an organization's security operations.
+
+
+         SOC Analyst and Their Responsibilities
+                    |
+        -------------------------------
+       |               |               |
+  Advantages   A Day in the Life    Skills and Abilities
+     of           of a SOC Analyst         Required
+  Being a
+  SOC Analyst
+
+
+
+What is SIEM?
+SIEM, or Security Information and Event Management, is a pivotal security solution that amalgamates real-time event logging with comprehensive security information management.
+Its primary function is to identify potential security threats by analyzing logged events.
+
+SIEM Solutions:
+Popular SIEM solutions include IBM QRadar, ArcSight ESM, FortiSIEM, and Splunk. Explore the "Monitoring" page on LetsDefend for a deeper understanding.
+
+Relationship Between SOC Analysts and SIEM:
+While SIEM solutions encompass various features, SOC analysts primarily focus on monitoring alerts.
+These alerts are scrutinized by analysts to determine their legitimacy as potential security threats.
+
+Analyst's Role:
+SOC analysts meticulously analyze SIEM-generated alerts using other SOC tools like EDR, Log Management, and Threat Intelligence Feed.
+They discern between genuine threats and false positives to ensure efficient threat detection and response.
+
+Example Scenario:
+In a simulated environment, analysts review alerts in the "Main Channel" and take ownership of specific alerts for investigation.
+False positives are identified and communicated to optimize the alerting process.
+
+Final Thoughts:
+This recap has elucidated the significance of SIEM in SOC operations and the pivotal role played by analysts in scrutinizing SIEM-generated alerts.
+
+           SIEM and Analyst Relationship
+                       |
+            -------------------------
+           |                         |
+         What is SIEM?      Relationship Between SOC Analysts and SIEM
+         /                     /         |           \
+    SIEM      SIEM Solutions      Analyst's Role    Example Scenario
+             (IBM QRadar, etc.)          
+                                       
+
+Log Management systems are integral to SOC operations, offering centralized access to various logs for efficient analysis.
+They aid SOC analysts in identifying communication patterns, tracing malware activity, and uncovering potential threats across the network.
+This centralized approach enhances efficiency and accuracy in threat detection and response.
+
+    Log Management for SOC Analysts
+                   |
+             -----------------
+            |                 |
+      Overview           Purpose
+                           |
+           ---------------------------
+          |                           |
+   Streamline Log Analysis       Identify Threats
+          |                           |
+  Consolidate Data Sources    Trace Malware Activity
+          |                           |
+       Enhance Efficiency      Investigate Communication
+                                 Patterns
+
+Endpoint Detection and Response (EDR) plays a crucial role in SOC operations, offering real-time monitoring and response capabilities for endpoint security.
+Analysts utilize EDR solutions like CarbonBlack, SentinelOne, and FireEye HX to conduct live investigations,
+isolate compromised devices, and identify indicators of compromise (IOCs).
+Effectively leveraging EDR enhances threat detection and response capabilities, ensuring proactive defense against cyber threats.
+
+
+          EDR for SOC Analysts
+                   |
+             -----------------
+            |                 |
+        Overview          Analysis
+                           |
+           ---------------------------
+          |                           |
+     EDR Definition         Live Investigation
+          |                           |
+   EDR Solutions         Containment Techniques
+          |                           |
+   Benefits of EDR          Quick Tips for EDR
