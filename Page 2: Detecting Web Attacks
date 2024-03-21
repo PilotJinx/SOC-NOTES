@@ -1,0 +1,26 @@
+DETECTING WEB ATTACKS
+
+Module summary:
+
+Web Attacks 101 Training
+│  
+├─ Introduction
+│    ├─ Definition of Web Attacks
+│    └─ Importance of Understanding Web Attacks
+│  
+└─ Attack Methods
+     ├─ SQL Injection
+     ├─ Cross Site Scripting
+     ├─ Command Injection
+     ├─ IDOR (Insecure Direct Object References)
+     ├─ RFI & LFI (Remote & Local File Inclusion)
+     └─ File Upload (Web Shell)
+
+
+THE IMPORTANCE OF DETECTING WEB ATTACKS:
+
+Web applications are prime targets for cyber attacks due to their widespread use and critical data.
+Research shows that 75% of cyber attacks occur at the web application level.
+Preventive measures like Web Application Firewalls (WAF), Intrusion Prevention Systems (IPS), and SIEM rules are crucial.
+SOC analysts play a vital role in detecting and preventing these attacks, safeguarding valuable assets.
+
