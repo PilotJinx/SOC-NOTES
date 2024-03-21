@@ -145,3 +145,485 @@ Effectively leveraging EDR enhances threat detection and response capabilities, 
    EDR Solutions         Containment Techniques
           |                           |
    Benefits of EDR          Quick Tips for EDR
+
+
+Introduction to SOAR:
+SOAR, or Security Orchestration Automation and Response, integrates security tools to streamline SOC tasks, enhancing efficiency.
+For instance, it automates tasks like querying VirusTotal for SIEM alert IPs, lightening the load on SOC analysts.
+
+Common SOAR Products:
+
+Splunk Phantom
+IBM Resilient
+Logsign
+Demisto
+Benefits of SOAR:
+
+Time Savings: Automated workflows handle tasks like IP reputation control and file scanning, freeing up analyst time.
+Centralization: SOAR provides a unified platform for various security tools, facilitating seamless integration.
+Playbooks:
+SOAR allows for the creation of playbooks tailored to different scenarios, guiding analysts through investigation steps.
+This ensures consistency across the SOC team and adherence to standard procedures.
+
+Integration with LetsDefend:
+In LetsDefend, "Case Management" serves a similar function to SOAR.
+It enables the creation and tracking of cases, ensuring organized and efficient incident response.
+
+     SOAR (Security Orchestration Automation and Response)
+                       |
+         -----------------------------------------------
+        |            |            |                   |
+     Saves You   Centralization    Playbooks    LetsDefend and SOAR...
+       Time                                           
+        |             |   
+   IP Address    Unified Platform
+   Reputation
+   Control
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[CASE]SIEM MANAGEMENT/SOAR EXERCISE:
+
+TOPIC: FAKE GPT browser extension leaking data (Case solved with the help of GPT 3.5, great learning aid)
+
+Analysis breakdown/ GPT cooperation transcript
+(I am KEEPING IT FOR THE FUTURE REFERENCE, you can skip to FINAL OUTCOMES underneath if you'd like to check the final anwsers)
+
+ok, so considering the following log "Field
+type
+
+source_address
+
+source_port
+
+destination_address
+
+destination_port
+
+time
+
+Value
+Proxy
+
+172.16.17.173
+
+32242
+
+172.217.17.142
+
+80
+
+May, 29, 2023, 01:03 PM
+
+Raw Log
+DestinationIp
+
+172.217.17.142
+
+Destination Host
+
+chrome.google.com
+
+DestinationPort
+
+80
+
+Image
+
+C:\Program Files\Google\Chrome\Application\chrome.exe
+
+Last Observed
+
+2023-05-29 13:03:13" this could indeed be a DNS poisoning or Spoofing, right? which one?
+ChatGPT
+Based on the provided log entries, it does not appear to be a case of DNS poisoning or spoofing. DNS poisoning involves corrupting the DNS cache with false information, redirecting users to malicious websites. DNS spoofing, on the other hand, involves providing false DNS responses to redirect users to malicious sites.
+
+In the log entries you provided, there is no evidence of DNS poisoning or spoofing. Instead, the log indicates a network connection originating from the source IP address 172.16.17.173 (likely a local system) to the destination IP address 172.217.17.142 on port 80. The destination IP address is associated with the domain chrome.google.com, suggesting a connection to the Google Chrome website or services. The image path indicates that the connection is initiated by the Google Chrome browser.
+
+Overall, the log appears to document a legitimate network connection from a local system to the Google Chrome website or service on port 80. Therefore, it does not indicate DNS poisoning or spoofing.
+
+User
+here is another log belonging to the same situation "Field
+type
+
+source_address
+
+source_port
+
+destination_address
+
+destination_port
+
+time
+
+Value
+Proxy
+
+172.16.17.173
+
+34223
+
+18.140.6.45
+
+80
+
+May, 29, 2023, 01:02 PM
+
+Raw Log
+Type
+
+Network Connection
+
+DestinationIp
+
+18.140.6.45
+
+DestinationHost
+
+www.chatgptgoogle.org
+
+DestinationPort
+
+80
+
+Image
+
+C:\Program Files\Google\Chrome\Application\chrome.exe
+
+UtcTime
+
+2023-05-29 13:02:59.848" this is clear too in your opinion?
+ChatGPT
+Based on the provided log entry, it appears to be a network connection initiated from the source IP address 172.16.17.173 to the destination IP address 18.140.6.45 on port 80. The destination IP address is associated with the domain www.chatgptgoogle.org. The log also indicates that the connection is made using the Google Chrome browser.
+
+However, there are a few aspects of this log entry that could raise suspicion:
+
+The domain "www.chatgptgoogle.org" seems unusual and may be an attempt to mimic a legitimate domain (e.g., "chatgptgoogle" is similar to "chat.google.com"). This could potentially be indicative of DNS spoofing or a malicious attempt to deceive users.
+
+The source IP address 172.16.17.173 is a private IP address, suggesting that the connection originates from a local network. If this connection is unexpected or unauthorized, it could indicate malicious activity or a compromised system within the network.
+
+The fact that the connection is made using Google Chrome does not necessarily guarantee its legitimacy. Malicious actors can manipulate browser settings or use browser-based attacks to conduct malicious activities.
+
+Overall, while the log entry does not definitively confirm malicious activity, it raises some concerns that warrant further investigation by a security analyst. It's essential to analyze network traffic patterns, inspect the destination website for signs of phishing or malware, and monitor for any further suspicious activity from the source IP address.
+
+User
+Yeah, so here is a third log "Field
+type
+
+source_address
+
+source_port
+
+destination_address
+
+destination_port
+
+time
+
+Value
+OS
+
+172.16.17.173
+
+0
+
+172.16.17.173
+
+0
+
+May, 29, 2023, 01:02 PM
+
+Raw Log
+Source
+
+Sysmon
+
+Username
+
+Samuel
+
+EventID
+
+22
+
+Type
+
+DNS Query
+
+QueryResult
+
+::ffff:52.76.101.124;::ffff:3.1.17.18;::ffff:18.140.6.45;
+
+QueryName
+
+www.chatgptforgoogle.pro
+
+Process
+
+C:\Program Files\Google\Chrome\Application\chrome.exe
+
+UtcTime
+
+2023-05-29 13:02:47.838" and once again we have another domain that wants to mimic google in a way. What dns exploit could this be then spoofing or poison?
+ChatGPT
+Based on the provided log entry, it appears to be a DNS query initiated from the source IP address 172.16.17.173. The query is made for the domain www.chatgptforgoogle.pro, and it originates from the process C:\Program Files\Google\Chrome\Application\chrome.exe.
+
+There are several aspects of this log entry that could indicate potential malicious activity:
+
+The domain "www.chatgptforgoogle.pro" seems suspicious and may be an attempt to impersonate or mimic a legitimate Google-related domain. This behavior is consistent with DNS spoofing, where attackers forge DNS responses to redirect users to malicious websites.
+
+The DNS query result includes multiple IP addresses (::ffff:52.76.101.124;::ffff:3.1.17.18;::ffff:18.140.6.45), which could indicate an attempt to perform DNS cache poisoning. In DNS cache poisoning attacks, attackers inject false DNS records into the cache of a DNS resolver, leading to the redirection of users to malicious websites.
+
+The source IP address 172.16.17.173 is a private IP address, suggesting that the DNS query originates from a local network. If this query is unauthorized or unexpected, it could indicate compromised or malicious activity within the network.
+
+Overall, the log entry raises significant concerns regarding potential DNS-related attacks, such as DNS spoofing or cache poisoning. It is crucial to investigate further, analyze network traffic patterns, and implement appropriate security measures to mitigate the risk of such attacks.
+
+User
+Summerise the three logs provided into the best diagnosis of the situation possible if this is all related to one account: Samuel (sysmon)
+ChatGPT
+Based on the provided logs associated with the account "Samuel" (Sysmon), the situation appears to involve suspicious DNS queries originating from the process "C:\Program Files\Google\Chrome\Application\chrome.exe" on the local system with the IP address 172.16.17.173. Here's a summary of the three logs:
+
+Log 1:
+
+Destination IP: 172.217.17.142 (chrome.google.com)
+Destination Port: 80 (HTTP)
+Potential DNS Spoofing or Poisoning: The destination host (chrome.google.com) may have been impersonated, indicating possible DNS spoofing.
+Log 2:
+
+Destination IP: 18.140.6.45 (www.chatgptgoogle.org)
+Destination Port: 80 (HTTP)
+Potential DNS Spoofing or Poisoning: Similar to Log 1, the destination domain (www.chatgptgoogle.org) may be attempting to mimic a legitimate Google-related domain, suggesting possible DNS spoofing.
+Log 3:
+
+Query Name: www.chatgptforgoogle.pro
+Query Result: Multiple IP addresses (::ffff:52.76.101.124;::ffff:3.1.17.18;::ffff:18.140.6.45)
+Potential DNS Cache Poisoning: The query result includes multiple IP addresses, indicating a potential attempt to perform DNS cache poisoning.
+Overall Diagnosis:
+The logs collectively suggest a pattern of suspicious DNS activity originating from the Chrome browser process associated with the account "Samuel." These activities include attempts to access domains that resemble legitimate Google-related domains and potentially manipulate DNS responses. This behavior raises concerns about possible DNS spoofing or cache poisoning attempts targeting the local network. Further investigation and mitigation measures are warranted to address these potential security threats.
+
+User
+Right, and then would google not use port 443 instead of port 80, is that correct?
+ChatGPT
+Yes, that's correct. Google and many other secure websites typically use HTTPS, which operates over port 443, for secure communication. Port 443 is the standard port for HTTPS traffic, which encrypts data transmitted between the web server and the client's browser. Therefore, if the destination is a legitimate Google-related domain, it would be expected to use port 443 for HTTPS communication rather than port 80 for unencrypted HTTP traffic. The presence of traffic on port 80 instead of port 443 for Google-related domains in the provided logs raises additional suspicion regarding the legitimacy of the connections and suggests potential security risks.
+
+User
+i am going through a playbook exercise regarding the data we just went over, the exercise is as follows: " Check If Someone Requested the C2
+Please go to the "Log Management" page and check if the C2 address accessed. You can check if the malicious file is run by searching the C2 addresses of the malicious file.
+
+Log Management
+Please click "Accessed" if someone access the malicious address. Otherwise please click "Not Accessed" button." could you please explain what is meant by C2? is this refering to a particular playbook in the SIEM/SOAR combination? Also i am not sure that in this case some one accessed the mailcious address. But since its a dns attack, the anwser is likely  "Accessed" or am i wrong?
+ChatGPT
+In cybersecurity, "C2" typically stands for "Command and Control." A Command and Control server is a centralized server used by attackers to send commands to compromised devices (often referred to as bots or zombies) and to receive stolen data or instructions from these devices. The goal of a C2 server is to maintain control over the compromised network and to facilitate malicious activities, such as launching further attacks, exfiltrating sensitive data, or carrying out other nefarious actions.
+
+In the context of the playbook exercise you provided, "Check If Someone Requested the C2," it likely refers to checking if any device in the network attempted to access the Command and Control server. Accessing the C2 server could indicate that a device within the network has been compromised or is attempting to communicate with the attacker's infrastructure.
+
+Regarding your uncertainty about whether someone accessed the malicious address in the logs you provided, it depends on the specific details of the logs and the context of your network. If the logs show traffic directed towards the suspicious addresses (potentially indicative of attempted communication with the C2 server), then selecting "Accessed" would be appropriate. However, if there is no evidence of such traffic or if the logs indicate that the connections were blocked or unsuccessful, then selecting "Not Accessed" would be more accurate.
+
+Ultimately, the decision should be based on the analysis of the log data and any relevant security policies or guidelines in your organization. If you're unsure, it may be helpful to consult with a more experienced colleague or a security specialist for guidance.
+
+User
+OK so i would go with "accessed" due to this log "Field
+type
+
+source_address
+
+source_port
+
+destination_address
+
+destination_port
+
+time
+
+Value
+Proxy
+
+172.16.17.173
+
+23324
+
+52.76.101.124
+
+80
+
+May, 29, 2023, 01:02 PM
+
+Raw Log
+Type
+
+Network Connection
+
+DestinationIp
+
+52.76.101.124
+
+DestinationHost
+
+www.chatgptforgoogle.pro
+
+DestinationPort
+
+80
+
+Image
+
+C:\Program Files\Google\Chrome\Application\chrome.exe
+
+UtcTime
+
+2023-05-29 13:02:47.847" It's at 1pm, likely during ones lunch time. 
+ChatGPT
+Based on the provided log, it appears that there was a network connection originating from IP address 172.16.17.173, port 23324, towards destination IP address 52.76.101.124 on port 80. The destination host is identified as "www.chatgptforgoogle.pro," and the connection was made using the Google Chrome application at 1:02 PM on May 29, 2023.
+
+Given that this connection was made to a suspicious domain ("www.chatgptforgoogle.pro"), it is reasonable to consider it as potentially accessing a Command and Control (C2) server. Therefore, selecting "Accessed" in the playbook exercise would be appropriate, indicating that someone attempted to access the malicious address during lunchtime.
+
+However, further analysis may be necessary to determine the exact nature of the connection and whether it poses a security risk to the network. This could involve investigating the content of the communication, analyzing any associated traffic patterns, and assessing the potential impact on the network's security posture.
+
+User
+Also here is the alert itself, which i had to start with but forgot about in the process " High	May, 29, 2023, 01:01 PM	SOC202 - FakeGPT Malicious Chrome Extension	153	Data Leakage
+EventID :
+153
+Event Time :
+May, 29, 2023, 01:01 PM
+Rule :
+SOC202 - FakeGPT Malicious Chrome Extension
+Level :
+Security Analyst
+Hostname :
+Samuel
+IP Address :
+172.16.17.173
+File Name :
+hacfaophiklaeolhnmckojjjjbnappen.crx
+File Path :
+C:\Users\LetsDefend\Download\hacfaophiklaeolhnmckojjjjbnappen.crx
+File Hash :
+7421f9abe5e618a0d517861f4709df53292a5f137053a227bfb4eb8e152a4669
+Command Line :
+chrome.exe --single-argument C:\Users\LetsDefend\Download\hacfaophiklaeolhnmckojjjjbnappen.crx
+Trigger Reason :
+Suspicious extension added to the browser.
+Device Action :
+Allowed" does this not indicate remote access/ code execution?
+ChatGPT
+The alert indicates that a suspicious Chrome extension named "hacfaophiklaeolhnmckojjjjbnappen.crx" was added to the browser on the device with the hostname "Samuel" and IP address "172.16.17.173" at 1:01 PM on May 29, 2023. The event triggered the SOC202 rule for detecting the "FakeGPT Malicious Chrome Extension."
+
+While the alert suggests the presence of a potentially malicious extension, it does not explicitly indicate remote access or code execution. However, the addition of a suspicious extension could potentially lead to unauthorized access or malicious activity on the device. Further investigation is necessary to determine the full extent of the threat and any associated risks to the system and network security.
+
+User
+but based on all the logs i have provided so far, the dns is off. so it must be compromised, or not for sure?
+ChatGPT
+Based on the provided logs and the suspicious activity observed, there are indications that the DNS may have been compromised. The logs show DNS queries for domains that mimic legitimate ones, such as "www.chatgptforgoogle.pro," which could suggest attempts at DNS spoofing or poisoning. Additionally, the presence of a suspicious Chrome extension and network connections to potentially malicious IP addresses further supports the possibility of a compromised DNS.
+
+However, to confirm whether the DNS has indeed been compromised, further investigation and analysis are required. This may involve examining network traffic, reviewing DNS server logs, and conducting security assessments to identify any signs of unauthorized access or malicious activity.
+
+User
+Ok so i contained the users machine as it turns out it was indeed an extension deleted from google chrome store due to malware.
+ChatGPT
+Containment of the user's machine was a prudent step given the presence of a malicious Chrome extension. Removing the extension from the user's browser and isolating the machine from the network helps prevent further potential damage or unauthorized access to other systems. Additionally, it's essential to conduct further analysis and remediation to ensure that any lingering traces of the malware are thoroughly eradicated from the affected system and to prevent similar incidents in the future.
+
+###########################################
+FINAL OUTCOMES:
+###########################################
+FINAL CASE DETAILS:
+1.Contained the machine after reviewing LOGs and scanning the file hash and researching the information online.
+2.Learned with the help of GPT how DNS hacking appears in the logs and different types of it.
+3.Learned how to use the SIEM/SOAR combo and solved a HIGH severity case on my first go. While consulting GPT AI that is.
+4. Artifacts list for future reference:
+  Case name "SOC202 - FakeGPT Malicious Chrome Extension"
+  VALUE---COMMENT---TYPE
+  Art1:
+  -VALUE: 7421f9abe5e618a0d517861f4709df53292a5f137053a227bfb4eb8e152a4669
+  -COMMENT: Malicious file hash
+  -TYPE: MD5 HASH
+  Art2:
+  -VALUE: 18.140.6.45:80
+  -COMMENT: IPv4
+  -TYPE: IP ADDRESS
+ Art3:
+  -VALUE: 52.76.101.124:80
+  -COMMENT: IPv4
+  -TYPE: IP ADDRESS
+ Art4:
+  -VALUE: www.chatgptforgoogle.pro
+  -COMMENT: Suspect Request Domain #1
+  -TYPE: URL ADDRESS
+ Art5:
+  -VALUE: www.chatgptforgoogle.org
+  -COMMENT: Suspect Restuest Domain #2
+  -TYPE: URL ADDRESS
+ Art6:
+  -VALUE: version.chatgpt4google.workers.dev
+  -COMMENT: Suspect Request Domain #3
+  -TYPE: URL ADDRESS
+
+
+LESSONS LEARNED:
+1.Stay vigilant during browser extension installations.
+2.Keep software updated to minimize vulnerabilities.
+3.Act promptly on suspicious extension installations.
+4.Learn from incidents to enhance security measures against new threats.
+5.Indicators of DNS compromise could be using port 80 for the likes of google,
+  where it is expected that the traffic would be going through HTTPS and not HTTP for safety and security reasons.
+
+SEQUENCE OF ACTIONS TAKEN:
+1.Check the incident details
+2.Check the LOGs carefully, consult someone if in doubt.
+3.Conclude positive or false positive.
+4.Remove the malicious extension from affected systems.
+5.Isolate the compromised machine from the network.
+Here is where the exercise ends, further steps according to the information learned so far would be:
+6.Review and update security configurations for better protection.
+7.Reset affected user accounts and enable two-factor authentication where possible.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Threat Intelligence
+
+Purpose: Ensure immediate awareness of threats.
+Definition: Third-party data with malware hashes, C2 domain/IP addresses, etc.
+Sources: VirusTotal, Talos Intelligence.
+LetsDefend's Page: Displays hash, IP data.
+Usage: Determine past malicious activities.
+Considerations:
+Lack of Detection: Doesn't confirm file cleanliness.
+Dynamic IPs: May change ownership, leading to false positives.
+Example: IP address used for malicious activities may now host legitimate content, requiring cautious interpretation.
+
+                        Threat Intelligence Feed
+                              |
+               -----------------------------------
+               |                                 |
+           Purpose                          Definition
+               |                                 |
+      Immediate awareness                Third-party data 
+           of threats                  (malware hashes, C2
+               |                      domain/IP addresses)
+       Sources / Usage                        |
+               |                           Examples
+      VirusTotal, Talos Intelligence     LetsDefend's Page
+               |                           |
+           Considerations                    |
+               |                           Usage
+        Lack of Detection                   |
+        Dynamic IPs                        Sources
+               |                           |
+       Example Scenario                 Considerations
+               |                           |
+          Conclusion                      Example
+
+
+Common Mistakes made by SOC Analysts:
+
+1.Over-reliance on VirusTotal Results
+  - Accept VT as supporting tool
+  - Perform thorough analyses
+2.Hasty Analysis of Malware in a Sandbox
+  - Consider duration and environment
+3.Inadequate Log Analysis
+  - Use Log Management solutions
+  - Check for connections to suspicious addresses
+4. Overlooking VirusTotal Dates
+  - Conduct new searches instead of relying on cache
+
+Additional resources:
+https://www.virustotal.com/gui/home/upload
+https://talosintelligence.com/
